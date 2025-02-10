@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesando Tensores</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script></head>
+<body>
+    <h1>Revisa la consola </h1>
+
+    <script>
+
+        //Creamos un tensor base
+        const tensor1 = tf.tensor([1, 2, 3]);
+        console.log('Tensor Original:');
+        console.log('Shape:', tensor1.shape); // Array [3]
+        console.log('Rank:', tensor1.rank); // 1
+        tensor1.print();
+        console.log('----------------------------');
+
+        //Repetimos los valores 3 veces en la misma dimensión
+        const tiled1 = tensor1.tile([3]); //Indica q se repite el tensor 3 veces en esa misma dimensión
+        console.log('Tensor repetido en una dimensión:');
+        console.log('Shape:', tiled1.shape); // Array [9]
+        console.log('Rank:', tiled1.rank); // 1
+        tiled1.print();// [1, 2, 3, 1, 2, 3, 1, 2, 3]
+        console.log('----------------------------');
+
+        //Creamos otro tensor para aumentarle valores en la segunda dimensión
+        const tensor2 = tf.tensor([[1],[2],[3]]); //Matriz columna
+        /*
+            [
+                [1],
+                [2],
+                [3]
+            ]
+        */
+        console.log('Tensor2d Original:');
+        console.log('Shape:', tensor2.shape); // Array [3, 1]
+        console.log('Rank:', tensor2.rank); // 2
+        tensor2.print();
+        console.log('----------------------------');
+
+        //Repetimos 4 veces en la segunda dimensión (columnas)
+        // [1, 4] significa q no repetimos filas pero replicamos cada num 4 veces en columnas
+        const tiled2 = tensor2.tile([1, 4]);
+        console.log('Tensor2d repetido en columnas:');
+        console.log('Shape:', tiled2.shape); // Array [3, 4]
+        console.log('Rank:', tiled2.rank); // 2
+        tiled2.print();
+        console.log('----------------------------');
+
+        /*
+            [
+                [1, 1, 1, 1],
+                [2, 2, 2, 2],
+                [3, 3, 3, 3]
+            ]
+        */
+
+        //Limpieza
+        tensor1.dispose();
+        tiled1.dispose();
+
+    </script>
+</body>
+</html>
