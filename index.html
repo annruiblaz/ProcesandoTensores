@@ -7,7 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 </head>
 <body>
-    
+
+    <h1>Revisa la consola </h1>
 
     <script>
         //Simulamos un modelo que espera una entrada con forma [1, 128, 128, 1]
@@ -21,36 +22,28 @@
         const tensorRGB = tf.randomUniform([28, 28, 3]);
         console.log('TensorRGB:');
         console.log('Shape:', tensorRGB.shape); //[28, 28, 3]
-        console.log('Rank:', tensorRGB.rank); //3
         tensorRGB.print();
         console.log('----------------------------');
 
-        //Paso 1: convertimos a escala de grises
-        //Almacenamos en esa dimensión la media d los valores d esa misma dimension
-        //Imitando lo q realizaria la funcion reduce d un vector
-        const grayscale = tensorRGB.mean(2);
+        //Paso 1: convertimos a escala de grises SIN perder la info del canal
+        //Por eso utilizamos el parametro keepDims
+        const grayscale = tensorRGB.mean(2, true); // [28, 28, 1]
 
         console.log('Grayscale:');
         grayscale.print();
-        console.log('Shape:', grayscale.shape); //[28, 28]
-        console.log('Rank:', grayscale.rank); //2
+        console.log('Shape:', grayscale.shape); //[28, 28, 3]
         console.log('----------------------------');
 
         //Paso 2: expandir dimensiones para añadir el lote
         const batched = grayscale.expandDims(0);
         console.log('Bacthed:');
-        console.log('Shape:', batched.shape); // [1, 28, 28]
+        console.log('Shape:', batched.shape); // [1, 28, 28, 1]
         console.log('----------------------------');
 
-        //Paso 3: añadir una dimensión para el canal
-        const finalTensor = batched.expandDims(-1); //[1, 28, 28, 1]
-        console.log('Forma del tensor final: ', finalTensor.shape);
-
-        //Paso 4: limpiar la memoria utilizada por los tensores
+        //Paso 3: limpiar la memoria utilizada por los tensores
         tensorRGB.dispose();
         grayscale.dispose();
         batched.dispose();
-        finalTensor.dispose();
 
     </script>
 </body>
